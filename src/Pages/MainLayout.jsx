@@ -3,6 +3,7 @@ import { Outlet, Link, NavLink } from "react-router";
 
 const MainLayout = () => {
   const [scrolled, setScrolled] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   React.useEffect(() => {
     document.body.style.margin = "0";
@@ -11,7 +12,6 @@ const MainLayout = () => {
     document.documentElement.style.margin = "0";
     document.documentElement.style.padding = "0";
 
-    // Apply styles to root element if it exists
     const root = document.getElementById("root");
     if (root) {
       root.style.margin = "0";
@@ -19,7 +19,6 @@ const MainLayout = () => {
     }
   }, []);
 
-  // Simulate scroll effect
   React.useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -50,6 +49,36 @@ const MainLayout = () => {
     gap: "1.5rem",
   };
 
+  const logoSearchWrapper = {
+    display: "flex",
+    alignItems: "center",
+    gap: "2rem",
+    flex: "1",
+  };
+
+  const searchBoxStyle = {
+    display: "flex",
+    alignItems: "center",
+    background: "rgba(255, 255, 255, 0.08)",
+    border: "1px solid rgba(255, 255, 255, 0.1)",
+    borderRadius: "12px",
+    padding: "0.5rem 1rem",
+    width: "100%",
+    maxWidth: "300px",
+    transition: "all 0.3s ease",
+  };
+
+  const searchInputStyle = {
+    background: "none",
+    border: "none",
+    color: "#fff",
+    outline: "none",
+    width: "100%",
+    fontSize: "0.9rem",
+    marginLeft: "0.5rem",
+    fontFamily: "'Noto Sans Lao', sans-serif",
+  };
+
   const logoStyle = {
     textDecoration: "none",
     display: "flex",
@@ -66,7 +95,6 @@ const MainLayout = () => {
   const navStyle = {
     fontFamily:
       "'Noto Sans Lao', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-
     display: "flex",
     gap: "0.5rem",
     alignItems: "center",
@@ -93,7 +121,6 @@ const MainLayout = () => {
   const footerStyle = {
     fontFamily:
       "'Noto Sans Lao', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
-
     background: "linear-gradient(135deg, #0f0c29 0%, #302b63 100%)",
     borderTop: "1px solid rgba(255, 255, 255, 0.1)",
     padding: "3rem 2rem",
@@ -182,14 +209,38 @@ const MainLayout = () => {
       {/* Header */}
       <header style={headerStyle}>
         <div style={containerStyle}>
-          {/* Logo */}
-          <NavLink to="/" style={logoStyle}>
-            <img
-              src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f680.svg"
-              alt="Logo"
-              style={logoImgStyle}
-            />
-          </NavLink>
+          <div style={logoSearchWrapper}>
+            {/* Logo */}
+            <NavLink to="/" style={logoStyle}>
+              <img
+                src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f680.svg"
+                alt="Logo"
+                style={logoImgStyle}
+              />
+            </NavLink>
+
+            {/* Search Box */}
+            <div
+              style={searchBoxStyle}
+              onFocusCapture={(e) => {
+                e.currentTarget.style.background = "rgba(255, 255, 255, 0.15)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.3)";
+              }}
+              onBlurCapture={(e) => {
+                e.currentTarget.style.background = "rgba(255, 255, 255, 0.08)";
+                e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.1)";
+              }}
+            >
+              <span style={{ fontSize: "0.9rem", opacity: 0.7 }}>🔍</span>
+              <input
+                type="text"
+                placeholder="ຄົ້ນຫາ..."
+                style={searchInputStyle}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </div>
 
           {/* Desktop Navigation */}
           <nav style={navStyle}>
